@@ -1,3 +1,5 @@
-﻿  1080.cpp
+﻿  1201.cpp
+c:\users\syshim\documents\visual studio 2015\projects\greedy\greedy\1201.cpp(35): warning C4018: '<': signed/unsigned mismatch
+c:\users\syshim\documents\visual studio 2015\projects\greedy\greedy\1201.cpp(42): warning C4018: '<': signed/unsigned mismatch
   Greedy.vcxproj -> C:\Users\syshim\Documents\Visual Studio 2015\Projects\Greedy\Debug\Greedy.exe
   Greedy.vcxproj -> C:\Users\syshim\Documents\Visual Studio 2015\Projects\Greedy\Debug\Greedy.pdb (Full PDB)

@@ -1,56 +1,118 @@
+// 푸는 방법은 알겠는데 코드로 옮기는게 어려움
+// 다시 혼자 풀어볼 것
 #include <iostream>
+#include <algorithm>
+#include <string>
 using namespace std;
 
+int a[1000][1000];
+
+void append(string &s, char c, int cnt) {
+	for (int i = 0; i<cnt; i++) {
+		s += c;
+	}
+}
+
 int main() {
-	int r, c, **rollercoaster, minimum = 1001, x, y;
-	cin >> r >> c;
-
-	rollercoaster = new int*[r + 1];
-	for (int i = 0; i < r; i++) {
-		rollercoaster[i] = new int[c + 1];
-		for (int j = 0; j < c; j++) {
-			cin >> rollercoaster[i][j];
-
-			if (rollercoaster[i][j] < minimum) {
-				minimum = rollercoaster[i][j];
-				x = j;
-				y = i;
-			}
+	int n, m;
+	cin >> n >> m;
+	for (int i = 0; i<n; i++) {
+		for (int j = 0; j<m; j++) {
+			cin >> a[i][j];
 		}
 	}
 
-	int cnt = 0;
-	if (r % 2 == 0 && c % 2 == 0) {			// both even
-		for (int i = 0; i < r; i++) {
-			for (int j = 0; j < c; j++) {
-				
+	string s = "";
+	if (n % 2 == 1) {
+		for (int i = 0; i<n; i++) {
+			if (i % 2 == 0) {
+				append(s, 'R', m - 1);
+				if (i != n - 1) {
+					append(s, 'D', 1);
+				}
+			}
+			else {
+				append(s, 'L', m - 1);
+				append(s, 'D', 1);
 			}
 		}
 	}
-	else if (r % 2 == 0 && c % 2 == 1) {	// r: even, c: odd
-
-	}
-	else if (r % 2 == 1 && c % 2 == 0) {	// r: odd, c: even
-
-	}
-	else {									// both odd
-		for (int i = 0; i < r - 1; i++) {
-			for (int j = 0; j < c - 1; j++) {
-				cout << "R";
+	else if (m % 2 == 1) {
+		for (int j = 0; j<m; j++) {
+			if (j % 2 == 0) {
+				append(s, 'D', n - 1);
+				if (j != m - 1) {
+					append(s, 'R', 1);
+				}
 			}
-			cout << "D";
-			for (int j = 0; j < c - 1; j++) {
-				cout << "L";
+			else {
+				append(s, 'U', n - 1);
+				append(s, 'R', 1);
 			}
-			cout << "D";
 		}
-		for (int i = 0; i < c; i++)
-			cout << "R";
-		cout << "D";
 	}
-
-	for (int i = 0; i < r; i++)
-		delete[] rollercoaster[i];
-	delete[] rollercoaster;
+	else {
+		int x, y;
+		x = 0;
+		y = 1;
+		for (int i = 0; i<n; i++) {
+			for (int j = 0; j<m; j++) {
+				if ((i + j) % 2 == 1) {
+					if (a[x][y] > a[i][j]) {
+						x = i;
+						y = j;
+					}
+				}
+			}
+		}
+		int x1 = 0;
+		int y1 = 0;
+		int x2 = n - 1;
+		int y2 = m - 1;
+		string s2 = "";
+		while (x2 - x1 > 1) {
+			if (x1 / 2 < x / 2) {
+				append(s, 'R', m - 1);
+				append(s, 'D', 1);
+				append(s, 'L', m - 1);
+				append(s, 'D', 1);
+				x1 += 2;
+			}
+			if (x / 2 < x2 / 2) {
+				append(s2, 'R', m - 1);
+				append(s2, 'D', 1);
+				append(s2, 'L', m - 1);
+				append(s2, 'D', 1);
+				x2 -= 2;
+			}
+		}
+		while (y2 - y1 > 1) {
+			if (y1 / 2 < y / 2) {
+				append(s, 'D', 1);
+				append(s, 'R', 1);
+				append(s, 'U', 1);
+				append(s, 'R', 1);
+				y1 += 2;
+			}
+			if (y / 2 < y2 / 2) {
+				append(s2, 'D', 1);
+				append(s2, 'R', 1);
+				append(s2, 'U', 1);
+				append(s2, 'R', 1);
+				y2 -= 2;
+			}
+		}
+		if (y == y1) {
+			append(s, 'R', 1);
+			append(s, 'D', 1);
+		}
+		else {
+			append(s, 'D', 1);
+			append(s, 'R', 1);
+		}
+		reverse(s2.begin(), s2.end());
+		s += s2;
+	}
+	cout << s << '\n';
 	return 0;
 }
