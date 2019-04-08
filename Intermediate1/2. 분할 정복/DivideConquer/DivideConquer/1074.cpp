@@ -1,39 +1,36 @@
+// 이해 아예 못한 문제이므로 꼭 다시 풀어볼 것
 #include <iostream>
 using namespace std;
 
-int n, r, c, cnt;
-
-bool check(int n, int x, int y) {
-	for (int i = y; i < y + n; i++) {
-		for (int j = x; j < x + n; j++) {
-			if (i == r&&j == c) {
-				return true;
-			}
-
-			cnt++;
-		}
-	}
-
-	return false;
+int sum(int k) {
+	return (1 << k);
 }
 
-void solve(int n, int x, int y) {
-	if (check(n, x, y)) {
-		return;
-	}
-
-	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 2; j++) {
-			solve(n / 2, x + (n / 2)*j, y + (n / 2)*i);
+int solve(int n, int x, int y) {
+	if (n == 1)
+		return 2 * x + y;
+	else {
+		if (x < sum(n - 1)) {
+			if (y < sum(n - 1))
+				return solve(n - 1, x, y);
+			else
+				return solve(n - 1, x, y - sum(n - 1)) + sum(2 * n - 2);
+		}
+		else {
+			if (y < sum(n - 1))
+				return solve(n - 1, x - sum(n - 1), y) + sum(2 * n - 2) * 2;
+			else
+				return solve(n - 1, x - sum(n - 1), y - sum(n - 1)) + sum(2 * n - 2) * 3;
 		}
 	}
 }
 
 int main() {
+	int n, r, c;
+	/*while (cin >> n >> r >> c)
+		cout << solve(n, r, c) << '\n';*/
 	cin >> n >> r >> c;
-
-	solve(n, 0, 0);
-	cout << cnt << '\n';
+	cout << solve(n, r, c) << '\n';
 
 	return 0;
 }
