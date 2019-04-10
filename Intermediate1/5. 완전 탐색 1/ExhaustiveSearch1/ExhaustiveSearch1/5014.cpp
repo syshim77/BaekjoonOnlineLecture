@@ -2,29 +2,33 @@
 #include <queue>
 using namespace std;
 
-int cnt[1000001];
-bool visit[1000001];
+int cnt[1000010];
+bool visit[1000010];
 
 int main() {
 	int f, s, g, u, d;
 	queue<int> q;
 	cin >> f >> s >> g >> u >> d;
 	q.push(s);
+	cnt[s] = 0;
 	visit[s] = true;
 
 	while (!q.empty()) {
 		int cur = q.front();
 		q.pop();
 
-		if (cur > g && !visit[cur] && d > 0 && cur - d > 0) {
-			visit[cur - d] = true;
-			q.push(cur - d);
-			cnt[cur - d] = cnt[cur] + 1;
+		int up = cur + u;
+		if (up <= f && !visit[up]) {
+			visit[up] = true;
+			q.push(up);
+			cnt[up] = cnt[cur] + 1;
 		}
-		else if (cur < g && !visit[cur] && u > 0 && cur + u <= f) {
-			visit[cur + u] = true;
-			q.push(cur + u);
-			cnt[cur + u] = cnt[cur] + 1;
+
+		int down = cur - d;
+		if (down >= 1 && !visit[down]) {
+			visit[down] = true;
+			q.push(down);
+			cnt[down] = cnt[cur] + 1;
 		}
 	}
 
